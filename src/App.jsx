@@ -17,7 +17,7 @@ function App() {
         const rate = response.data.rates[toCurrency];
         setExchangeRate(rate);
         const converted = amount * rate;
-        setConvertedAmount(converted.toFixed(2)); // Round to 2 decimal places
+        setConvertedAmount(converted.toFixed(2)); 
       } catch (error) {
         console.log("Error fetching exchange rate:", error);
       }
