@@ -1,26 +1,29 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
+import axios from "axios";
 
 function App() {
-  const [amount, setAmount] = useState(1);
+  const [amount, setAmount] = useState(null);
   const [fromCurrency, setFromCurrency] = useState("INR");
   const [toCurrency, setToCurrency] = useState("USD");
   const [convertedAmount, setConvertedAmount] = useState(null);
   const [exchangeRate, setExchangeRate] = useState(null);
-
   useEffect(() => {
     const getExchange = async () => {
       try {
         let url = `https://api.exchangerate-api.com/v4/latest/${fromCurrency}`;
         const response = await axios.get(url);
         console.log(response.data);
-        setExchangeRate(response.data.rates[toCurrency]);
+        const rate = response.data.rates[toCurrency];
+        setExchangeRate(rate);
+        const converted = amount * rate;
+        setConvertedAmount(converted.toFixed(2)); // Round to 2 decimal places
       } catch (error) {
         console.log("Error fetching exchange rate:", error);
       }
     };
     getExchange();
-  }, [fromCurrency, toCurrency]);
+  }, [fromCurrency, toCurrency, amount]);
 
   const handleAmountChange = (e) => {
     const value = parseFloat(e.target.value);
@@ -56,13 +59,31 @@ function App() {
             value={fromCurrency}
             onChange={handleFromChange}
           >
-            {/* options */}
+            <option value="USD">USD - United States Dollar</option>
+            <option value="EUR">EUR - Euro</option>
+            <option value="GBP">GBP - British Pound Sterling</option>
+            <option value="JPY">JPY - Japanese Yen</option>
+            <option value="AUD">AUD - Australian Dollar</option>
+            <option value="CAD">CAD Canadian Dollar</option>
+            <option value="CNY">CNY - Chinese Yuan</option>
+            <option value="INR">INR - Indian Rupee</option>
+            <option value="BRL">BRL - Brazilian Real</option>
+            <option value="ZAR">ZAR - South African Rand</option>
           </select>
         </div>
         <div className="input-container">
           <label htmlFor="toCurrency">To Currency:</label>
           <select id="toCurrency" value={toCurrency} onChange={handleToChange}>
-            {/* options */}
+            <option value="USD">USD - United States Dollar</option>
+            <option value="EUR">EUR - Euro</option>
+            <option value="GBP">GBP - British Pound Sterling</option>
+            <option value="JPY">JPY - Japanese Yen</option>
+            <option value="AUD">AUD - Australian Dollar</option>
+            <option value="CAD">CAD Canadian Dollar</option>
+            <option value="CNY">CNY - Chinese Yuan</option>
+            <option value="INR">INR - Indian Rupee</option>
+            <option value="BRL">BRL - Brazilian Real</option>
+            <option value="ZAR">ZAR - South African Rand</option>
           </select>
         </div>
         <div className="result">
