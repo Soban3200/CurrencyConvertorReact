@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
-import axios from "axios";
 
 function App() {
   const [amount, setAmount] = useState(1);
   const [fromCurrency, setFromCurrency] = useState("INR");
   const [toCurrency, setToCurrency] = useState("USD");
   const [convertedAmount, setConvertedAmount] = useState(null);
-  const [exchangeRate,setExchangeRate]=useState(null)
+  const [exchangeRate, setExchangeRate] = useState(null);
 
   useEffect(() => {
     const getExchange = async () => {
@@ -15,13 +14,13 @@ function App() {
         let url = `https://api.exchangerate-api.com/v4/latest/${fromCurrency}`;
         const response = await axios.get(url);
         console.log(response.data);
-        setExchangeRate(response.data.rates[toCurrency  ])
+        setExchangeRate(response.data.rates[toCurrency]);
       } catch (error) {
         console.log("Error fetching exchange rate:", error);
       }
     };
     getExchange();
-  }, [fromCurrency,toCurrency]);
+  }, [fromCurrency, toCurrency]);
 
   const handleAmountChange = (e) => {
     const value = parseFloat(e.target.value);
@@ -62,11 +61,7 @@ function App() {
         </div>
         <div className="input-container">
           <label htmlFor="toCurrency">To Currency:</label>
-          <select
-            id="toCurrency"
-            value={toCurrency}
-            onChange={handleToChange}
-          >
+          <select id="toCurrency" value={toCurrency} onChange={handleToChange}>
             {/* options */}
           </select>
         </div>
